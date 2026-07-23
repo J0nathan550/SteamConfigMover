@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Steam Config Mover</title>
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <h1>Steam Config Mover</h1>
+    <p class="sub">Copy a Steam profile's local userdata (cloud saves cache, screenshots, config, shader/controller settings)
+    from one account to another. With a zip backup taken first.</p>
+  </header>
+
+  <div id="unsupported-warning" class="banner banner-warn hidden">
+    <strong>Heads up:</strong> your browser doesn't support the File System Access API, so this tool can't read or
+    write local folders here. Use a recent version of <strong>Chrome</strong> or <strong>Edge</strong>, and open this
+    page over <code>https://</code> or <code>http://localhost</code> (not by double-clicking the HTML file, if your
+    browser blocks the API on <code>file://</code>).
+  </div>
+
+  <section class="card">
+    <h2>1. Locate your Steam folder</h2>
+    <p>Detected OS: <strong id="os-label">detecting…</strong></p>
+    <p>Suggested Steam install path - you'll still need to browse to it in the picker, browsers can't jump straight
+       to an arbitrary path for security reasons:</p>
+    <code id="suggested-path" class="path-box">…</code>
+
+    <div class="row">
+      <button id="btn-pick-steam" class="btn btn-primary">Grant access to Steam folder</button>
+      <span id="steam-folder-status" class="status">No folder selected</span>
+    </div>
+  </section>
+
+  <section class="card hidden" id="section-profiles">
+    <h2>2. Choose profiles</h2>
+    <p class="muted small">Avatars are read from Steam's local avatar cache when available, otherwise a placeholder
+      icon is shown. Names come from <code>config/loginusers.vdf</code>.</p>
+
+    <div id="profile-list" class="profile-grid"></div>
+  </section>
+
+  <section class="card hidden" id="section-move">
+    <h2>3. Move</h2>
+    <div class="move-picker">
+      <div class="move-slot">
+        <label>Source profile</label>
+        <div id="source-slot" class="slot-empty">Select a profile above</div>
+      </div>
+      <div class="move-arrow">→</div>
+      <div class="move-slot">
+        <label>Destination profile</label>
+        <div id="dest-slot" class="slot-empty">Select a profile above</div>
+      </div>
+    </div>
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="delete-source" />
+      Delete source files after copying (unchecked = copy only, source untouched)
+    </label>
+
+    <div class="row">
+      <button id="btn-backup" class="btn btn-secondary" disabled>1. Backup destination (zip)</button>
+      <button id="btn-dry-run" class="btn btn-secondary" disabled>2. Preview changes</button>
+      <button id="btn-move" class="btn btn-danger" disabled>3. Run move</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Log</h2>
+    <pre id="log" class="log-box">Waiting for actions…</pre>
+  </section>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="js/vdf.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>
